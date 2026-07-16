@@ -15,6 +15,18 @@ class DetailScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final destination = destinationRepository.getById(destinationId);
 
+    if (destination == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('Destination Not Found')),
+        body: Center(
+          child: Text(
+            'Sorry, this destination could not be loaded.',
+            style: theme.textTheme.titleMedium,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

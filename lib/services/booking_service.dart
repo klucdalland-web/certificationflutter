@@ -29,4 +29,4 @@ class BookingService {
   List<Booking> get history => List.unmodifiable(_bookings);
 }
 
-const bookingService = BookingService();
+final bookingService = BookingService();

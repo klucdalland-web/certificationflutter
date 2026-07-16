@@ -20,6 +20,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Book Now'), findsOneWidget);
+      await tester.ensureVisible(find.text('Book Now'));
       await tester.tap(find.text('Book Now'));
       await tester.pumpAndSettle();
 
@@ -41,7 +42,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.textContaining('Merci'), findsOneWidget);
-      expect(find.textContaining('Santorini'), findsOneWidget);
+      expect(find.text('Destination : Santorini'), findsOneWidget);
     });
   });
 }
