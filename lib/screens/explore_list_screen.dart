@@ -1,6 +1,7 @@
+// screens/explore_list_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../data/destination_data.dart';
+import '../services/destination_repository.dart';
 import '../models/destination.dart';
 import '../widgets/destination_card.dart';
 
@@ -25,7 +26,8 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
   }
 
   List<Destination> get _filteredDestinations {
-    return DestinationData.destinations.where((d) {
+    final all = destinationRepository.getAll();
+    return all.where((d) {
       final matchesCategory = _selectedCategory == 'All' || d.category == _selectedCategory;
       final matchesSearch = d.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           d.location.toLowerCase().contains(_searchQuery.toLowerCase());
@@ -36,7 +38,7 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final categories = DestinationData.categories;
+    final categories = destinationRepository.categories;
     final filteredList = _filteredDestinations;
 
     return Scaffold(

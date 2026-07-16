@@ -1,6 +1,7 @@
+// screens/detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../data/destination_data.dart';
+import '../services/destination_repository.dart';
 import '../widgets/rating_stars.dart';
 import '../widgets/stat_badge.dart';
 
@@ -12,10 +13,7 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final destination = DestinationData.destinations.firstWhere(
-      (d) => d.id == destinationId,
-      orElse: () => DestinationData.destinations.first,
-    );
+    final destination = destinationRepository.getById(destinationId);
 
     return Scaffold(
       body: SingleChildScrollView(

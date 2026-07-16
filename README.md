@@ -50,4 +50,20 @@ Remember to configure your web server to redirect all routes to `index.html` whe
 - `go_router` is declared in `pubspec.yaml`.
 - Screens are under `lib/screens/` (`home_screen.dart`, `explore_list_screen.dart`, etc.).
 
+## Architecture
+
+- Project follows a simple layered approach: `models` (data classes), `data` (static in-memory seed data), `services` (repositories), and `screens` (UI). This helps keep UI code free from direct data access logic.
+
+## Tests & CI
+
+- Unit and widget tests are under `test/`. Widget tests mock network images using `network_image_mock`.
+- A GitHub Actions workflow is included at `.github/workflows/flutter_test.yml` to run tests on push/PR.
+
+## Responsive & accessibility notes
+
+- `ExploreListScreen` adapts between `ListView` and `GridView` based on available width.
+- The home hero section uses a proportional height via `LayoutBuilder` for better tablet support.
+
+If you want, I can also add a small `service` test, integration tests, or sample screenshots to this README.
+
 If you want, I can add examples for deep links, shell routes, or a bottom navigation bar.

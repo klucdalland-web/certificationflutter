@@ -1,6 +1,7 @@
+// screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../data/destination_data.dart';
+import '../services/destination_repository.dart';
 
 class HomeScreen extends StatelessWidget {
   final ValueNotifier<ThemeMode> themeNotifier;
@@ -10,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final categories = DestinationData.categories;
+    final categories = destinationRepository.categories;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,8 +36,13 @@ class HomeScreen extends StatelessWidget {
             // Hero Section
             Stack(
               children: [
-                Container(
-                  height: 300,
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final heroHeight = (constraints.maxHeight > 0)
+                        ? constraints.maxHeight * 0.45
+                        : 300.0;
+                    return Container(
+                      height: heroHeight,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -44,6 +50,8 @@ class HomeScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
+                    );
+                  },
                 ),
                 Container(
                   height: 300,
