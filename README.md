@@ -53,16 +53,34 @@ Remember to configure your web server to redirect all routes to `index.html` whe
 ## Architecture
 
 - Project follows a simple layered approach: `models` (data classes), `data` (static in-memory seed data), `services` (repositories), and `screens` (UI). This helps keep UI code free from direct data access logic.
+- `BookingService` simulates backend behavior and supports a confirmation screen after payment details are submitted.
+
+## Screens
+
+- `HomeScreen` : accueil et navigation vers les catégories.
+- `ExploreListScreen` : recherche, filtrage par catégorie et affichage adaptatif mobile/tablette.
+- `DetailScreen` : détails d’une destination avec bouton de réservation.
+- `BookingScreen` : formulaire de réservation avec validation et date picker.
+- `BookingConfirmationScreen` : confirmation finale de la réservation.
 
 ## Tests & CI
 
-- Unit and widget tests are under `test/`. Widget tests mock network images using `network_image_mock`.
-- A GitHub Actions workflow is included at `.github/workflows/flutter_test.yml` to run tests on push/PR.
+- Unit, widget et integration tests sont inclus.
+- `test/` contient des tests pour les données, l’interface et le flux de réservation.
+- `integration_test/app_test.dart` vérifie le lancement de l’application et la navigation de base.
+- Un workflow GitHub Actions est inclus à `.github/workflows/flutter_test.yml` pour exécuter les tests sur push/PR.
+
+## Exécution des tests
+
+```bash
+flutter test
+flutter test integration_test/app_test.dart
+```
 
 ## Responsive & accessibility notes
 
-- `ExploreListScreen` adapts between `ListView` and `GridView` based on available width.
-- The home hero section uses a proportional height via `LayoutBuilder` for better tablet support.
+- `ExploreListScreen` adapte entre `ListView` et `GridView` en fonction de la largeur disponible.
+- Le hero de la page d’accueil est proportionnel à la hauteur de l’écran pour une meilleure expérience tablette.
 
 If you want, I can also add a small `service` test, integration tests, or sample screenshots to this README.
 
