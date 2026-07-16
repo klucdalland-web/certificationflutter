@@ -15,12 +15,22 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ExploreWorld', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'ExploreWorld',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
-            icon: Icon(themeNotifier.value == ThemeMode.light
-                ? Icons.dark_mode
-                : Icons.light_mode),
+            icon: const Icon(Icons.history),
+            tooltip: 'Booking history',
+            onPressed: () => context.goNamed('history'),
+          ),
+          IconButton(
+            icon: Icon(
+              themeNotifier.value == ThemeMode.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
             onPressed: () {
               themeNotifier.value = themeNotifier.value == ThemeMode.light
                   ? ThemeMode.dark
@@ -37,35 +47,43 @@ class HomeScreen extends StatelessWidget {
             Stack(
               children: [
                 // Hero image height is proportional to screen height for responsiveness
-                Builder(builder: (context) {
-                  final heroHeight = MediaQuery.of(context).size.height * 0.45;
-                  return Container(
-                    height: heroHeight,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1200'),
-                        fit: BoxFit.cover,
+                Builder(
+                  builder: (context) {
+                    final heroHeight =
+                        MediaQuery.of(context).size.height * 0.45;
+                    return Container(
+                      height: heroHeight,
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1200',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  );
-                }),
-                Builder(builder: (context) {
-                  final heroHeight = MediaQuery.of(context).size.height * 0.45;
-                  return Container(
-                    height: heroHeight,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withAlpha(180),
-                        ],
+                    );
+                  },
+                ),
+                Builder(
+                  builder: (context) {
+                    final heroHeight =
+                        MediaQuery.of(context).size.height * 0.45;
+                    return Container(
+                      height: heroHeight,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withAlpha(180),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  },
+                ),
                 Positioned(
                   bottom: 40,
                   left: 20,
@@ -86,7 +104,10 @@ class HomeScreen extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: theme.colorScheme.primary,
                           foregroundColor: theme.colorScheme.onPrimary,
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
                         ),
                         child: const Text('Explore All Destinations'),
                       ),
@@ -101,7 +122,9 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 'Browse by Category',
-                style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -115,7 +138,10 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final category = categories[index];
                   return GestureDetector(
-                    onTap: () => context.goNamed('explore', queryParameters: {'category': category}),
+                    onTap: () => context.goNamed(
+                      'explore',
+                      queryParameters: {'category': category},
+                    ),
                     child: Column(
                       children: [
                         CircleAvatar(
@@ -138,14 +164,6 @@ class HomeScreen extends StatelessWidget {
             // Featured content
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Featured',
-                style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Card(
                 elevation: 2,
                 clipBehavior: Clip.antiAlias,
@@ -159,10 +177,27 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const ListTile(
                       title: Text('Summer Deals 2026'),
-                      subtitle: Text('Up to 30% off on selected beach resorts.'),
+                      subtitle: Text(
+                        'Up to 30% off on selected beach resorts.',
+                      ),
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
                   ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ElevatedButton.icon(
+                onPressed: () => context.goNamed('history'),
+                icon: const Icon(Icons.history),
+                label: const Text('View booking history'),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                 ),
               ),
             ),
@@ -175,10 +210,14 @@ class HomeScreen extends StatelessWidget {
 
   IconData _getIconForCategory(String category) {
     switch (category) {
-      case 'Beach': return Icons.beach_access;
-      case 'Mountain': return Icons.terrain;
-      case 'City': return Icons.location_city;
-      default: return Icons.explore;
+      case 'Beach':
+        return Icons.beach_access;
+      case 'Mountain':
+        return Icons.terrain;
+      case 'City':
+        return Icons.location_city;
+      default:
+        return Icons.explore;
     }
   }
 }

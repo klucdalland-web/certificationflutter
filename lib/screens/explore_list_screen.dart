@@ -28,8 +28,10 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
   List<Destination> get _filteredDestinations {
     final all = destinationRepository.getAll();
     return all.where((d) {
-      final matchesCategory = _selectedCategory == 'All' || d.category == _selectedCategory;
-      final matchesSearch = d.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+      final matchesCategory =
+          _selectedCategory == 'All' || d.category == _selectedCategory;
+      final matchesSearch =
+          d.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
           d.location.toLowerCase().contains(_searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     }).toList();
@@ -39,12 +41,11 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final categories = destinationRepository.categories;
+    final filterCategories = ['All', ...categories];
     final filteredList = _filteredDestinations;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Explore Destinations'),
-      ),
+      appBar: AppBar(title: const Text('Explore Destinations')),
       body: Column(
         children: [
           // Search and Filter Bar
@@ -69,7 +70,7 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: categories.map((cat) {
+                    children: filterCategories.map((cat) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: FilterChip(
@@ -107,18 +108,22 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
                 if (constraints.maxWidth > 600) {
                   return GridView.builder(
                     padding: const EdgeInsets.all(16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.1,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.1,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
                     itemCount: filteredList.length,
                     itemBuilder: (context, index) {
                       final dest = filteredList[index];
                       return DestinationCard(
                         destination: dest,
-                        onTap: () => context.goNamed('details', pathParameters: {'id': dest.id}),
+                        onTap: () => context.goNamed(
+                          'details',
+                          pathParameters: {'id': dest.id},
+                        ),
                       );
                     },
                   );
@@ -132,7 +137,10 @@ class _ExploreListScreenState extends State<ExploreListScreen> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: DestinationCard(
                           destination: dest,
-                          onTap: () => context.goNamed('details', pathParameters: {'id': dest.id}),
+                          onTap: () => context.goNamed(
+                            'details',
+                            pathParameters: {'id': dest.id},
+                          ),
                         ),
                       );
                     },

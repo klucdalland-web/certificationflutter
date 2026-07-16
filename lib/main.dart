@@ -6,6 +6,7 @@ import 'screens/explore_list_screen.dart';
 import 'screens/detail_screen.dart';
 import 'screens/booking_screen.dart';
 import 'screens/booking_confirmation_screen.dart';
+import 'screens/booking_history_screen.dart';
 import 'models/booking.dart';
 
 void main() {
@@ -20,8 +21,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final ValueNotifier<ThemeMode> _themeNotifier =
-      ValueNotifier(ThemeMode.light);
+  final ValueNotifier<ThemeMode> _themeNotifier = ValueNotifier(
+    ThemeMode.light,
+  );
 
   late final GoRouter _router = GoRouter(
     initialLocation: '/',
@@ -34,9 +36,8 @@ class _MyAppState extends State<MyApp> {
       GoRoute(
         path: '/explore',
         name: 'explore',
-        builder: (context, state) => ExploreListScreen(
-          category: state.uri.queryParameters['category'],
-        ),
+        builder: (context, state) =>
+            ExploreListScreen(category: state.uri.queryParameters['category']),
       ),
       GoRoute(
         path: '/details/:id',
@@ -50,7 +51,8 @@ class _MyAppState extends State<MyApp> {
         path: '/booking',
         name: 'booking',
         builder: (context, state) {
-          final destinationName = state.uri.queryParameters['name'] ?? 'Unknown destination';
+          final destinationName =
+              state.uri.queryParameters['name'] ?? 'Unknown destination';
           return BookingScreen(destinationName: destinationName);
         },
       ),
@@ -66,6 +68,11 @@ class _MyAppState extends State<MyApp> {
           }
           return BookingConfirmationScreen(booking: booking);
         },
+      ),
+      GoRoute(
+        path: '/history',
+        name: 'history',
+        builder: (context, state) => const BookingHistoryScreen(),
       ),
     ],
   );
@@ -95,4 +102,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

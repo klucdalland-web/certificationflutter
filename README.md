@@ -61,6 +61,7 @@ Remember to configure your web server to redirect all routes to `index.html` whe
 - `ExploreListScreen` : recherche, filtrage par catégorie et affichage adaptatif mobile/tablette.
 - `DetailScreen` : détails d’une destination avec bouton de réservation.
 - `BookingScreen` : formulaire de réservation avec validation et date picker.
+- `BookingHistoryScreen` : consultation de l'historique des réservations.
 - `BookingConfirmationScreen` : confirmation finale de la réservation.
 
 ## Tests & CI
