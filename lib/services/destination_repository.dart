@@ -9,11 +9,13 @@ class DestinationRepository {
 
   List<String> get categories => DestinationData.categories;
 
-  Destination getById(String id) {
-    return DestinationData.destinations.firstWhere(
-      (d) => d.id == id,
-      orElse: () => DestinationData.destinations.first,
-    );
+  Destination? getById(String id) {
+    for (final destination in DestinationData.destinations) {
+      if (destination.id == id) {
+        return destination;
+      }
+    }
+    return null;
   }
 }
 

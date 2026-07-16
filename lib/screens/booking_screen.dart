@@ -1,5 +1,8 @@
+// screens/booking_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../models/booking.dart';
+import '../services/booking_service.dart';
 
 class BookingScreen extends StatefulWidget {
   final String destinationName;
@@ -16,34 +19,41 @@ class _BookingScreenState extends State<BookingScreen> {
   final _emailController = TextEditingController();
   double _numGuests = 1;
   DateTime? _selectedDate;
+  bool _isBooking = false;
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      if (_selectedDate == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a travel date')),
-        );
-        return;
-      }
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Booking Confirmed!'),
-          content: Text(
-            'Thank you, ${_nameController.text}! Your trip to ${widget.destinationName} on ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year} for ${_numGuests.toInt()} guest(s) is confirmed.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.goNamed('home');
-              },
-              child: const Text('Great!'),
-            ),
-          ],
-        ),
+    if (_selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a travel date')),
       );
+      return;
+    }
+
+    setState(() {
+      _isBooking = true;
+    });
+
+    try {
+      final booking = await bookingService.book(
+        destinationName: widget.destinationName,
+        guestName: _nameController.text,
+        guestEmail: _emailController.text,
+        numGuests: _numGuests.toInt(),
+        travelDate: _selectedDate!,
+      );
+
+      context.goNamed('bookingConfirmation', extra: booking);
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Booking failed: $error')),
+      );
+      setState(() {
+        _isBooking = false;
+      });
     }
   }
 
@@ -69,17 +79,19 @@ class _BookingScreenState extends State<BookingScreen> {
       appBar: AppBar(
         title: const Text('Book Your Trip'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Destination: ${widget.destinationName}',
-                style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-              ),
+      body: _isBooking
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Destination: ${widget.destinationName}',
+                      style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                    ),
               const SizedBox(height: 32),
               
               // Name Field

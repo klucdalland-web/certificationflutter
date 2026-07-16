@@ -5,6 +5,8 @@ import 'screens/home_screen.dart';
 import 'screens/explore_list_screen.dart';
 import 'screens/detail_screen.dart';
 import 'screens/booking_screen.dart';
+import 'screens/booking_confirmation_screen.dart';
+import 'models/booking.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,8 +50,21 @@ class _MyAppState extends State<MyApp> {
         path: '/booking',
         name: 'booking',
         builder: (context, state) {
-          final destinationName = state.uri.queryParameters['name'] ?? '';
+          final destinationName = state.uri.queryParameters['name'] ?? 'Unknown destination';
           return BookingScreen(destinationName: destinationName);
+        },
+      ),
+      GoRoute(
+        path: '/booking/confirmation',
+        name: 'bookingConfirmation',
+        builder: (context, state) {
+          final booking = state.extra as Booking?;
+          if (booking == null) {
+            return const Scaffold(
+              body: Center(child: Text('Booking confirmation unavailable.')),
+            );
+          }
+          return BookingConfirmationScreen(booking: booking);
         },
       ),
     ],
