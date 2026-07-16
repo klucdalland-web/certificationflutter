@@ -36,36 +36,36 @@ class HomeScreen extends StatelessWidget {
             // Hero Section
             Stack(
               children: [
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final heroHeight = (constraints.maxHeight > 0)
-                        ? constraints.maxHeight * 0.45
-                        : 300.0;
-                    return Container(
-                      height: heroHeight,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1200'),
-                      fit: BoxFit.cover,
+                // Hero image height is proportional to screen height for responsiveness
+                Builder(builder: (context) {
+                  final heroHeight = MediaQuery.of(context).size.height * 0.45;
+                  return Container(
+                    height: heroHeight,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1200'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                    );
-                  },
-                ),
-                Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withAlpha(180),
-                      ],
+                  );
+                }),
+                Builder(builder: (context) {
+                  final heroHeight = MediaQuery.of(context).size.height * 0.45;
+                  return Container(
+                    height: heroHeight,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withAlpha(180),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
                 Positioned(
                   bottom: 40,
                   left: 20,
