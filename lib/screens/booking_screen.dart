@@ -48,9 +48,9 @@ class _BookingScreenState extends State<BookingScreen> {
 
       context.goNamed('bookingConfirmation', extra: booking);
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Booking failed: $error')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Booking failed: $error')));
       setState(() {
         _isBooking = false;
       });
@@ -76,9 +76,7 @@ class _BookingScreenState extends State<BookingScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Book Your Trip'),
-      ),
+      appBar: AppBar(title: const Text('Book Your Trip')),
       body: _isBooking
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -90,98 +88,110 @@ class _BookingScreenState extends State<BookingScreen> {
                   children: [
                     Text(
                       'Destination: ${widget.destinationName}',
-                      style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-              const SizedBox(height: 32),
-              
-              // Name Field
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Full Name',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Please enter your name';
-                  if (value.length < 3) return 'Name must be at least 3 characters';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
+                    const SizedBox(height: 32),
 
-              // Email Field
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Please enter your email';
-                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                    return 'Please enter a valid email address';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 32),
+                    // Name Field
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Full Name',
+                        prefixIcon: Icon(Icons.person),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty)
+                          return 'Please enter your name';
+                        if (value.length < 3)
+                          return 'Name must be at least 3 characters';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
 
-              // Guests Slider
-              Text(
-                'Number of Guests: ${_numGuests.toInt()}',
-                style: theme.textTheme.titleMedium,
-              ),
-              Slider(
-                value: _numGuests,
-                min: 1,
-                max: 10,
-                divisions: 9,
-                label: _numGuests.round().toString(),
-                onChanged: (value) => setState(() => _numGuests = value),
-              ),
-              const SizedBox(height: 20),
+                    // Email Field
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        labelText: 'Email Address',
+                        prefixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty)
+                          return 'Please enter your email';
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 32),
 
-              // Date Picker
-              ListTile(
-                title: Text(
-                  _selectedDate == null
-                      ? 'Select Travel Date'
-                      : 'Date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
-                ),
-                leading: const Icon(Icons.calendar_today),
-                trailing: const Icon(Icons.arrow_drop_down),
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                onTap: () => _selectDate(context),
-              ),
-              const SizedBox(height: 48),
+                    // Guests Slider
+                    Text(
+                      'Number of Guests: ${_numGuests.toInt()}',
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    Slider(
+                      value: _numGuests,
+                      min: 1,
+                      max: 10,
+                      divisions: 9,
+                      label: _numGuests.round().toString(),
+                      onChanged: (value) => setState(() => _numGuests = value),
+                    ),
+                    const SizedBox(height: 20),
 
-              // Submit Button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _submitForm,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  child: const Text(
-                    'Confirm Booking',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                    // Date Picker
+                    ListTile(
+                      title: Text(
+                        _selectedDate == null
+                            ? 'Select Travel Date'
+                            : 'Date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
+                      ),
+                      leading: const Icon(Icons.calendar_today),
+                      trailing: const Icon(Icons.arrow_drop_down),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      onTap: () => _selectDate(context),
+                    ),
+                    const SizedBox(height: 48),
+
+                    // Submit Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: _submitForm,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: theme.colorScheme.onPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: const Text(
+                          'Confirm Booking',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
